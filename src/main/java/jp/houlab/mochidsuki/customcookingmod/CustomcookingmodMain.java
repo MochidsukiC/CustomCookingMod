@@ -1,8 +1,11 @@
 package jp.houlab.mochidsuki.customcookingmod;
 
 import com.mojang.logging.LogUtils;
+import jp.houlab.mochidsuki.customcookingmod.network.ModNetworking;
+import jp.houlab.mochidsuki.customcookingmod.registry.ModBlockEntities;
 import jp.houlab.mochidsuki.customcookingmod.registry.ModBlocks;
 import jp.houlab.mochidsuki.customcookingmod.registry.ModItems;
+import jp.houlab.mochidsuki.customcookingmod.registry.ModMenuTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -90,6 +93,8 @@ public class CustomcookingmodMain {
         // Register our custom registries
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
+        ModBlockEntities.register(modEventBus);
+        ModMenuTypes.register(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in
@@ -103,6 +108,12 @@ public class CustomcookingmodMain {
         // Common setup code
         LOGGER.info("CustomCookingMod - Common Setup");
         LOGGER.info("AI-Powered Dynamic Cooking System Initialized");
+
+        // Register networking
+        event.enqueueWork(() -> {
+            ModNetworking.register();
+            LOGGER.info("Network channels registered");
+        });
 
         // Log API configuration status (without exposing the key)
         if (Config.geminiApiKey != null && !Config.geminiApiKey.isEmpty()) {
@@ -128,6 +139,14 @@ public class CustomcookingmodMain {
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+
+            // Register screens
+            event.enqueueWork(() -> {
+                net.minecraft.client.gui.screens.MenuScreens.register(
+                        jp.houlab.mochidsuki.customcookingmod.registry.ModMenuTypes.AI_KITCHEN_MENU.get(),
+                        jp.houlab.mochidsuki.customcookingmod.screen.AIKitchenScreen::new
+                );
+            });
         }
     }
 }

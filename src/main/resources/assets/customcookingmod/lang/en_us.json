@@ -22,5 +22,15 @@
   "block.customcookingmod.oven": "Oven",
   "block.customcookingmod.rice_cooker": "Rice Cooker",
   "block.customcookingmod.microwave": "Microwave",
-  "block.customcookingmod.hot_plate": "Hot Plate"
+  "block.customcookingmod.hot_plate": "Hot Plate",
+
+  "gui.customcookingmod.ai_kitchen.dish_name": "Dish Name",
+  "gui.customcookingmod.ai_kitchen.dish_name_hint": "Enter dish name...",
+  "gui.customcookingmod.ai_kitchen.category": "Category",
+  "gui.customcookingmod.ai_kitchen.category_hint": "e.g., Japanese, Italian...",
+  "gui.customcookingmod.ai_kitchen.generate": "Generate Recipe",
+  "gui.customcookingmod.ai_kitchen.generating": "Generating recipe...",
+  "gui.customcookingmod.ai_kitchen.error.empty_name": "Please enter a dish name",
+  "gui.customcookingmod.ai_kitchen.success": "Recipe generated successfully!",
+  "gui.customcookingmod.ai_kitchen.error": "Failed to generate recipe"
 }

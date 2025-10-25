@@ -1,6 +1,7 @@
 package jp.houlab.mochidsuki.customcookingmod.registry;
 
 import jp.houlab.mochidsuki.customcookingmod.CustomcookingmodMain;
+import jp.houlab.mochidsuki.customcookingmod.block.AIKitchenBlock;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -19,7 +20,7 @@ public class ModBlocks {
 
     // AIキッチンブロック (AI Kitchen Block)
     public static final RegistryObject<Block> AI_KITCHEN = registerBlock("ai_kitchen",
-            () -> new Block(BlockBehaviour.Properties.of()
+            () -> new AIKitchenBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.METAL)
                     .strength(3.5f)
                     .sound(SoundType.METAL)

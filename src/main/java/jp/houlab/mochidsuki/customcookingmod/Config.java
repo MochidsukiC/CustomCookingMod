@@ -36,8 +36,9 @@ public class Config {
             .define("geminiApiKey", "");
 
     private static final ForgeConfigSpec.ConfigValue<String> GEMINI_API_ENDPOINT = BUILDER
-            .comment("Google Gemini API endpoint URL")
-            .define("geminiApiEndpoint", "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent");
+            .comment("Google Gemini API endpoint URL",
+                    "Using Gemini 2.0 Flash Experimental (latest available model)")
+            .define("geminiApiEndpoint", "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent");
 
     private static final ForgeConfigSpec.IntValue GEMINI_TIMEOUT_SECONDS = BUILDER
             .comment("Timeout for AI API requests in seconds")
