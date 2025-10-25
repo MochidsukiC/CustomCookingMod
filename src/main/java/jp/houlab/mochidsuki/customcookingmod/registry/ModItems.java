@@ -1,6 +1,7 @@
 package jp.houlab.mochidsuki.customcookingmod.registry;
 
 import jp.houlab.mochidsuki.customcookingmod.CustomcookingmodMain;
+import jp.houlab.mochidsuki.customcookingmod.item.FoodContainerItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -38,6 +39,9 @@ public class ModItems {
     public static final RegistryObject<Item> POTATO_STARCH = ITEMS.register("potato_starch",
             () -> new Item(new Item.Properties()));
 
+    public static final RegistryObject<Item> SOY_SAUCE = ITEMS.register("soy_sauce",
+            () -> new Item(new Item.Properties()));
+
     // 調理失敗アイテム (Failed Cooking Item)
     public static final RegistryObject<Item> FAILED_DISH = ITEMS.register("failed_dish",
             () -> new Item(new Item.Properties()));
@@ -56,6 +60,27 @@ public class ModItems {
 
     public static final RegistryObject<Item> BOWL = ITEMS.register("bowl",
             () -> new Item(new Item.Properties()));
+
+    // 計量器具 (Measuring Tools)
+    public static final RegistryObject<Item> MEASURING_CUP = ITEMS.register("measuring_cup",
+            () -> new Item(new Item.Properties().durability(256)));
+
+    public static final RegistryObject<Item> KITCHEN_SCALE = ITEMS.register("kitchen_scale",
+            () -> new Item(new Item.Properties().durability(512)));
+
+    public static final RegistryObject<Item> SPOON = ITEMS.register("spoon",
+            () -> new Item(new Item.Properties().durability(128)));
+
+    // 容器アイテム (Container Items)
+    // Containers can hold cooked food with weight-based system
+    public static final RegistryObject<Item> PLASTIC_CONTAINER = ITEMS.register("plastic_container",
+            () -> new FoodContainerItem(new Item.Properties().stacksTo(16), 200)); // 200g capacity
+
+    public static final RegistryObject<Item> PLATE = ITEMS.register("plate",
+            () -> new FoodContainerItem(new Item.Properties().stacksTo(16), 300)); // 300g capacity
+
+    public static final RegistryObject<Item> LARGE_PLATE = ITEMS.register("large_plate",
+            () -> new FoodContainerItem(new Item.Properties().stacksTo(16), 500)); // 500g capacity
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

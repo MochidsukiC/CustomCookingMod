@@ -61,6 +61,7 @@ public class RecipeGenerator {
         prompt.append("- customcookingmod:mirin (みりん)\n");
         prompt.append("- customcookingmod:cooking_sake (料理酒)\n");
         prompt.append("- customcookingmod:miso (みそ)\n");
+        prompt.append("- customcookingmod:soy_sauce (醤油)\n");
         prompt.append("- customcookingmod:cooking_oil (食用油)\n");
         prompt.append("- customcookingmod:sesame_oil (ごま油)\n");
         prompt.append("- customcookingmod:pepper (こしょう)\n");
@@ -102,8 +103,11 @@ public class RecipeGenerator {
         prompt.append("12. 粉挽き機で挽く (kaleidoscope_cookery:millstone)\n\n");
 
         prompt.append("以下のJSON形式で応答してください:\n");
+        prompt.append("重要: 料理はグラム単位で管理されます。totalWeightGramsにレシピ全体の重量を指定し、\n");
+        prompt.append("nutritionPer100gとsaturationPer100gには100gあたりの満腹度回復量を指定してください。\n\n");
         prompt.append("{\n");
         prompt.append("  \"dishName\": \"" + dishName + "\",\n");
+        prompt.append("  \"totalWeightGrams\": 1000,\n");
         prompt.append("  \"ingredients\": [\n");
         prompt.append("    {\"item\": \"minecraft:wheat\", \"count\": 2},\n");
         prompt.append("    {\"item\": \"customcookingmod:salt\", \"count\": 1}\n");
@@ -112,8 +116,8 @@ public class RecipeGenerator {
         prompt.append("    {\"action\": \"mix_in_bowl\", \"description\": \"ボウルで小麦と塩を混ぜる\"},\n");
         prompt.append("    {\"action\": \"cook_in_oven\", \"description\": \"オーブンで焼く\"}\n");
         prompt.append("  ],\n");
-        prompt.append("  \"nutrition\": 6,\n");
-        prompt.append("  \"saturation\": 0.6,\n");
+        prompt.append("  \"nutritionPer100g\": 2.5,\n");
+        prompt.append("  \"saturationPer100g\": 0.3,\n");
         prompt.append("  \"expirationHours\": 48\n");
         prompt.append("}\n\n");
 
@@ -134,8 +138,9 @@ public class RecipeGenerator {
 
             RecipeData recipeData = new RecipeData();
             recipeData.dishName = json.get("dishName").getAsString();
-            recipeData.nutrition = json.get("nutrition").getAsInt();
-            recipeData.saturation = json.get("saturation").getAsFloat();
+            recipeData.totalWeightGrams = json.get("totalWeightGrams").getAsInt();
+            recipeData.nutritionPer100g = json.get("nutritionPer100g").getAsFloat();
+            recipeData.saturationPer100g = json.get("saturationPer100g").getAsFloat();
             recipeData.expirationHours = json.get("expirationHours").getAsInt();
 
             // Parse ingredients
@@ -188,13 +193,15 @@ public class RecipeGenerator {
 
     /**
      * Data class for recipe information
+     * Uses weight-based system with nutrition per 100g
      */
     public static class RecipeData {
         public String dishName;
+        public int totalWeightGrams;  // Total weight of the dish when cooked
         public List<Ingredient> ingredients;
         public List<CookingStep> steps;
-        public int nutrition;
-        public float saturation;
+        public float nutritionPer100g;  // Nutrition value per 100g
+        public float saturationPer100g;  // Saturation value per 100g
         public int expirationHours;
 
         public static class Ingredient {

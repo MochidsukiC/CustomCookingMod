@@ -8,15 +8,14 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * BlockEntity for AI Kitchen
- * Handles AI recipe generation requests
+ * Handles AI recipe generation requests and stores cooked food
  */
-public class AIKitchenBlockEntity extends BlockEntity implements MenuProvider {
+public class AIKitchenBlockEntity extends CookingBlockEntity implements MenuProvider {
 
     public AIKitchenBlockEntity(BlockPos pos, BlockState blockState) {
         super(ModBlockEntities.AI_KITCHEN_BE.get(), pos, blockState);

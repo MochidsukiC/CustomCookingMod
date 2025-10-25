@@ -78,7 +78,11 @@ public class AIKitchenScreen extends AbstractContainerScreen<AIKitchenMenu> {
         }
 
         // Send packet to server to request recipe generation
-        ModNetworking.sendToServer(new RecipeGenerationRequestPacket(dishName, category));
+        ModNetworking.sendToServer(new RecipeGenerationRequestPacket(
+                dishName,
+                category,
+                this.menu.getBlockEntity().getBlockPos()
+        ));
         this.statusMessage = Component.translatable("gui.customcookingmod.ai_kitchen.generating");
         this.generateButton.active = false;
     }

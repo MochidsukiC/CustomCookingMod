@@ -10,12 +10,22 @@
   "item.customcookingmod.sesame_oil": "Sesame Oil",
   "item.customcookingmod.pepper": "Pepper",
   "item.customcookingmod.potato_starch": "Potato Starch",
+  "item.customcookingmod.soy_sauce": "Soy Sauce",
   "item.customcookingmod.failed_dish": "Failed Dish",
 
   "item.customcookingmod.spatula": "Spatula",
   "item.customcookingmod.ladle": "Ladle",
   "item.customcookingmod.frying_pan": "Frying Pan",
   "item.customcookingmod.bowl": "Bowl",
+
+  "item.customcookingmod.measuring_cup": "Measuring Cup",
+  "item.customcookingmod.kitchen_scale": "Kitchen Scale",
+  "item.customcookingmod.spoon": "Spoon",
+
+  "item.customcookingmod.plastic_container": "Plastic Container",
+  "item.customcookingmod.plate": "Plate",
+  "item.customcookingmod.large_plate": "Large Plate",
+  "item.customcookingmod.filled_container": "%s (%sg) - %s",
 
   "block.customcookingmod.ai_kitchen": "AI Kitchen",
   "block.customcookingmod.ih_heater": "IH Heater",
@@ -32,5 +42,11 @@
   "gui.customcookingmod.ai_kitchen.generating": "Generating recipe...",
   "gui.customcookingmod.ai_kitchen.error.empty_name": "Please enter a dish name",
   "gui.customcookingmod.ai_kitchen.success": "Recipe generated successfully!",
-  "gui.customcookingmod.ai_kitchen.error": "Failed to generate recipe"
+  "gui.customcookingmod.ai_kitchen.error": "Failed to generate recipe",
+
+  "tooltip.customcookingmod.container.capacity": "Capacity: %sg",
+  "tooltip.customcookingmod.container.contents": "Contents: %s (%sg)",
+  "tooltip.customcookingmod.container.nutrition": "Nutrition: %s",
+  "tooltip.customcookingmod.container.saturation": "Saturation: %s",
+  "tooltip.customcookingmod.container.empty": "Empty"
 }

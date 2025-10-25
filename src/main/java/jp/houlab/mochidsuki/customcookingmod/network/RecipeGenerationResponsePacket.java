@@ -35,8 +35,9 @@ public class RecipeGenerationResponsePacket {
             // Serialize RecipeData to JSON
             JsonObject json = new JsonObject();
             json.addProperty("dishName", packet.recipeData.dishName);
-            json.addProperty("nutrition", packet.recipeData.nutrition);
-            json.addProperty("saturation", packet.recipeData.saturation);
+            json.addProperty("totalWeightGrams", packet.recipeData.totalWeightGrams);
+            json.addProperty("nutritionPer100g", packet.recipeData.nutritionPer100g);
+            json.addProperty("saturationPer100g", packet.recipeData.saturationPer100g);
             json.addProperty("expirationHours", packet.recipeData.expirationHours);
 
             // Serialize ingredients
@@ -79,8 +80,9 @@ public class RecipeGenerationResponsePacket {
 
         RecipeGenerator.RecipeData recipeData = new RecipeGenerator.RecipeData();
         recipeData.dishName = json.get("dishName").getAsString();
-        recipeData.nutrition = json.get("nutrition").getAsInt();
-        recipeData.saturation = json.get("saturation").getAsFloat();
+        recipeData.totalWeightGrams = json.get("totalWeightGrams").getAsInt();
+        recipeData.nutritionPer100g = json.get("nutritionPer100g").getAsFloat();
+        recipeData.saturationPer100g = json.get("saturationPer100g").getAsFloat();
         recipeData.expirationHours = json.get("expirationHours").getAsInt();
 
         // Deserialize ingredients
