@@ -2,6 +2,7 @@ package jp.houlab.mochidsuki.customcookingmod.registry;
 
 import jp.houlab.mochidsuki.customcookingmod.CustomcookingmodMain;
 import jp.houlab.mochidsuki.customcookingmod.block.AIKitchenBlock;
+import jp.houlab.mochidsuki.customcookingmod.block.CuttingBoardBlock;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -68,7 +69,7 @@ public class ModBlocks {
 
     // まな板 (Cutting Board)
     public static final RegistryObject<Block> CUTTING_BOARD = registerBlock("cutting_board",
-            () -> new Block(BlockBehaviour.Properties.of()
+            () -> new CuttingBoardBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.WOOD)
                     .strength(1.5f)
                     .sound(SoundType.WOOD)));
