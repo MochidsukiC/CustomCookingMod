@@ -104,13 +104,15 @@ public class RecipeGenerator {
 
         prompt.append("以下のJSON形式で応答してください:\n");
         prompt.append("重要: 料理はグラム単位で管理されます。totalWeightGramsにレシピ全体の重量を指定し、\n");
+        prompt.append("材料もグラム単位（grams）で指定してください。\n");
         prompt.append("nutritionPer100gとsaturationPer100gには100gあたりの満腹度回復量を指定してください。\n\n");
         prompt.append("{\n");
         prompt.append("  \"dishName\": \"" + dishName + "\",\n");
         prompt.append("  \"totalWeightGrams\": 1000,\n");
         prompt.append("  \"ingredients\": [\n");
-        prompt.append("    {\"item\": \"minecraft:wheat\", \"count\": 2},\n");
-        prompt.append("    {\"item\": \"customcookingmod:salt\", \"count\": 1}\n");
+        prompt.append("    {\"item\": \"minecraft:wheat\", \"grams\": 300},\n");
+        prompt.append("    {\"item\": \"customcookingmod:salt\", \"grams\": 5},\n");
+        prompt.append("    {\"item\": \"minecraft:egg\", \"grams\": 50}\n");
         prompt.append("  ],\n");
         prompt.append("  \"steps\": [\n");
         prompt.append("    {\"action\": \"mix_in_bowl\", \"description\": \"ボウルで小麦と塩を混ぜる\"},\n");
@@ -149,8 +151,8 @@ public class RecipeGenerator {
             for (int i = 0; i < ingredientsJson.size(); i++) {
                 JsonObject ingredient = ingredientsJson.get(i).getAsJsonObject();
                 String itemId = ingredient.get("item").getAsString();
-                int count = ingredient.get("count").getAsInt();
-                recipeData.ingredients.add(new RecipeData.Ingredient(itemId, count));
+                int grams = ingredient.get("grams").getAsInt();
+                recipeData.ingredients.add(new RecipeData.Ingredient(itemId, grams));
             }
 
             // Parse cooking steps
@@ -206,11 +208,11 @@ public class RecipeGenerator {
 
         public static class Ingredient {
             public String itemId;
-            public int count;
+            public int grams;  // Weight in grams
 
-            public Ingredient(String itemId, int count) {
+            public Ingredient(String itemId, int grams) {
                 this.itemId = itemId;
-                this.count = count;
+                this.grams = grams;
             }
         }
 

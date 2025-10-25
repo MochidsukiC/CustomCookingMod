@@ -46,7 +46,7 @@ public class RecipeGenerationResponsePacket {
                 RecipeGenerator.RecipeData.Ingredient ing = packet.recipeData.ingredients.get(i);
                 JsonObject ingObj = new JsonObject();
                 ingObj.addProperty("item", ing.itemId);
-                ingObj.addProperty("count", ing.count);
+                ingObj.addProperty("grams", ing.grams);
                 ingredientsObj.add("ing" + i, ingObj);
             }
             json.add("ingredients", ingredientsObj);
@@ -91,8 +91,8 @@ public class RecipeGenerationResponsePacket {
         for (String key : ingredientsObj.keySet()) {
             JsonObject ingObj = ingredientsObj.getAsJsonObject(key);
             String itemId = ingObj.get("item").getAsString();
-            int count = ingObj.get("count").getAsInt();
-            recipeData.ingredients.add(new RecipeGenerator.RecipeData.Ingredient(itemId, count));
+            int grams = ingObj.get("grams").getAsInt();
+            recipeData.ingredients.add(new RecipeGenerator.RecipeData.Ingredient(itemId, grams));
         }
 
         // Deserialize steps
