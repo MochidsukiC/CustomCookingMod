@@ -28,12 +28,32 @@ public class Config {
     // a list of strings that are treated as resource locations for items
     private static final ForgeConfigSpec.ConfigValue<List<? extends String>> ITEM_STRINGS = BUILDER.comment("A list of items to log on common setup.").defineListAllowEmpty("items", List.of("minecraft:iron_ingot"), Config::validateItemName);
 
+    // Google Gemini API Configuration
+    private static final ForgeConfigSpec.ConfigValue<String> GEMINI_API_KEY = BUILDER
+            .comment("Google Gemini API Key for AI-powered recipe generation.",
+                    "IMPORTANT: Server administrators must provide their own API key.",
+                    "Get your API key from: https://ai.google.dev/")
+            .define("geminiApiKey", "");
+
+    private static final ForgeConfigSpec.ConfigValue<String> GEMINI_API_ENDPOINT = BUILDER
+            .comment("Google Gemini API endpoint URL")
+            .define("geminiApiEndpoint", "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent");
+
+    private static final ForgeConfigSpec.IntValue GEMINI_TIMEOUT_SECONDS = BUILDER
+            .comment("Timeout for AI API requests in seconds")
+            .defineInRange("geminiTimeoutSeconds", 60, 10, 300);
+
     static final ForgeConfigSpec SPEC = BUILDER.build();
 
     public static boolean logDirtBlock;
     public static int magicNumber;
     public static String magicNumberIntroduction;
     public static Set<Item> items;
+
+    // Gemini API Config values
+    public static String geminiApiKey;
+    public static String geminiApiEndpoint;
+    public static int geminiTimeoutSeconds;
 
     private static boolean validateItemName(final Object obj) {
         return obj instanceof final String itemName && ForgeRegistries.ITEMS.containsKey(new ResourceLocation(itemName));
@@ -47,5 +67,10 @@ public class Config {
 
         // convert the list of strings into a set of items
         items = ITEM_STRINGS.get().stream().map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).collect(Collectors.toSet());
+
+        // Load Gemini API config
+        geminiApiKey = GEMINI_API_KEY.get();
+        geminiApiEndpoint = GEMINI_API_ENDPOINT.get();
+        geminiTimeoutSeconds = GEMINI_TIMEOUT_SECONDS.get();
     }
 }

@@ -1,0 +1,29 @@
+{
+  "itemGroup.customcookingmod.custom_cooking_tab": "Custom Cooking",
+
+  "item.customcookingmod.rice": "Rice",
+  "item.customcookingmod.salt": "Salt",
+  "item.customcookingmod.mirin": "Mirin",
+  "item.customcookingmod.cooking_sake": "Cooking Sake",
+  "item.customcookingmod.miso": "Miso",
+  "item.customcookingmod.cooking_oil": "Cooking Oil",
+  "item.customcookingmod.sesame_oil": "Sesame Oil",
+  "item.customcookingmod.pepper": "Pepper",
+  "item.customcookingmod.potato_starch": "Potato Starch",
+  "item.customcookingmod.failed_dish": "Failed Dish",
+
+  "item.customcookingmod.kitchen_knife": "Kitchen Knife",
+  "item.customcookingmod.spatula": "Spatula",
+  "item.customcookingmod.ladle": "Ladle",
+  "item.customcookingmod.frying_pan": "Frying Pan",
+  "item.customcookingmod.pot": "Pot",
+  "item.customcookingmod.bowl": "Bowl",
+
+  "block.customcookingmod.ai_kitchen": "AI Kitchen",
+  "block.customcookingmod.ih_heater": "IH Heater",
+  "block.customcookingmod.oven": "Oven",
+  "block.customcookingmod.rice_cooker": "Rice Cooker",
+  "block.customcookingmod.microwave": "Microwave",
+  "block.customcookingmod.hot_plate": "Hot Plate",
+  "block.customcookingmod.cutting_board": "Cutting Board"
+}
