@@ -40,6 +40,11 @@ authors = "${mod_authors}" #optional
 
 # The description text for the mod (multi line!) (#mandatory)
 description = '''${mod_description}'''
+
+# Mixin configuration
+[[mixins]]
+config = "customcookingmod.mixins.json"
+
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies."${mod_id}"]] #optional
 # the modid of the dependency
@@ -60,4 +65,12 @@ mandatory = true
 # This version range declares a minimum of the current minecraft version up to but not including the next major version
 versionRange = "${minecraft_version_range}"
 ordering = "NONE"
+side = "BOTH"
+
+# KaleidoscopeCookery dependency
+[[dependencies."${mod_id}"]]
+modId = "kaleidoscope_cookery"
+mandatory = true
+versionRange = "[1.1.0,)"
+ordering = "AFTER"
 side = "BOTH"

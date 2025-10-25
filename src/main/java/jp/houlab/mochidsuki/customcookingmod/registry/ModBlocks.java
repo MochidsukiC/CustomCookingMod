@@ -65,12 +65,7 @@ public class ModBlocks {
                     .sound(SoundType.METAL)
                     .requiresCorrectToolForDrops()));
 
-    // パッド/まな板 (Cutting Board/Pad)
-    public static final RegistryObject<Block> CUTTING_BOARD = registerBlock("cutting_board",
-            () -> new Block(BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.WOOD)
-                    .strength(1.5f)
-                    .sound(SoundType.WOOD)));
+    // Note: Cutting board (chopping_board) and pot are provided by KaleidoscopeCookery
 
     // Helper method to register block with item
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {

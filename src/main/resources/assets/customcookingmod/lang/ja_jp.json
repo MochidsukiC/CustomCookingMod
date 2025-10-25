@@ -12,11 +12,9 @@
   "item.customcookingmod.potato_starch": "片栗粉",
   "item.customcookingmod.failed_dish": "失敗作",
 
-  "item.customcookingmod.kitchen_knife": "包丁",
   "item.customcookingmod.spatula": "へら",
   "item.customcookingmod.ladle": "おたま",
   "item.customcookingmod.frying_pan": "フライパン",
-  "item.customcookingmod.pot": "鍋",
   "item.customcookingmod.bowl": "ボウル",
 
   "block.customcookingmod.ai_kitchen": "AIキッチン",
@@ -24,6 +22,5 @@
   "block.customcookingmod.oven": "オーブン",
   "block.customcookingmod.rice_cooker": "炊飯器",
   "block.customcookingmod.microwave": "電子レンジ",
-  "block.customcookingmod.hot_plate": "ホットプレート",
-  "block.customcookingmod.cutting_board": "まな板"
+  "block.customcookingmod.hot_plate": "ホットプレート"
 }

@@ -65,21 +65,20 @@ public class CustomcookingmodMain {
                 output.accept(ModItems.FAILED_DISH.get());
 
                 // 調理器具アイテム
-                output.accept(ModItems.KITCHEN_KNIFE.get());
+                // Note: kitchen_knife and pot are provided by KaleidoscopeCookery
                 output.accept(ModItems.SPATULA.get());
                 output.accept(ModItems.LADLE.get());
                 output.accept(ModItems.FRYING_PAN.get());
-                output.accept(ModItems.POT.get());
                 output.accept(ModItems.BOWL.get());
 
                 // 調理器具ブロック
+                // Note: cutting_board (chopping_board) is provided by KaleidoscopeCookery
                 output.accept(ModBlocks.AI_KITCHEN.get());
                 output.accept(ModBlocks.IH_HEATER.get());
                 output.accept(ModBlocks.OVEN.get());
                 output.accept(ModBlocks.RICE_COOKER.get());
                 output.accept(ModBlocks.MICROWAVE.get());
                 output.accept(ModBlocks.HOT_PLATE.get());
-                output.accept(ModBlocks.CUTTING_BOARD.get());
             }).build());
 
     public CustomcookingmodMain() {

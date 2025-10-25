@@ -55,10 +55,7 @@ public class RecipeGenerator {
         prompt.append("カテゴリ: ").append(category).append("\n\n");
 
         prompt.append("以下の利用可能な材料とアイテムを使って、このレシピを考案してください:\n\n");
-        prompt.append("=== 基本原材料 ===\n");
-        prompt.append("- minecraft:wheat (小麦)\n");
-        prompt.append("- minecraft:sugar (砂糖)\n");
-        prompt.append("- minecraft:egg (卵)\n");
+        prompt.append("=== 基本原材料（本Mod） ===\n");
         prompt.append("- customcookingmod:rice (米)\n");
         prompt.append("- customcookingmod:salt (塩)\n");
         prompt.append("- customcookingmod:mirin (みりん)\n");
@@ -67,17 +64,42 @@ public class RecipeGenerator {
         prompt.append("- customcookingmod:cooking_oil (食用油)\n");
         prompt.append("- customcookingmod:sesame_oil (ごま油)\n");
         prompt.append("- customcookingmod:pepper (こしょう)\n");
-        prompt.append("- customcookingmod:potato_starch (片栗粉)\n");
-        prompt.append("- minecraft:water_bucket (水)\n\n");
+        prompt.append("- customcookingmod:potato_starch (片栗粉)\n\n");
+
+        prompt.append("=== KaleidoscopeCookeryの食材 ===\n");
+        prompt.append("- kaleidoscope_cookery:tomato (トマト)\n");
+        prompt.append("- kaleidoscope_cookery:lettuce (レタス)\n");
+        prompt.append("- kaleidoscope_cookery:chili (唐辛子)\n");
+        prompt.append("- kaleidoscope_cookery:rice (米)\n");
+        prompt.append("- kaleidoscope_cookery:raw_lamb_chops (生羊肉)\n");
+        prompt.append("- kaleidoscope_cookery:raw_pork_belly (豚バラ肉)\n");
+        prompt.append("- kaleidoscope_cookery:raw_cow_offal (牛内臓)\n");
+        prompt.append("- kaleidoscope_cookery:oil (油)\n\n");
+
+        prompt.append("=== バニラMinecraftの食材 ===\n");
+        prompt.append("- minecraft:wheat (小麦)\n");
+        prompt.append("- minecraft:sugar (砂糖)\n");
+        prompt.append("- minecraft:egg (卵)\n");
+        prompt.append("- minecraft:water_bucket (水)\n");
+        prompt.append("- minecraft:beef, pork, chicken, mutton (各種肉)\n");
+        prompt.append("- minecraft:potato, carrot, beetroot (各種野菜)\n\n");
 
         prompt.append("=== 利用可能な調理法 ===\n");
-        prompt.append("1. 鍋でゆでる (ih_heater + pot)\n");
-        prompt.append("2. フライパンで焼く (ih_heater + frying_pan)\n");
-        prompt.append("3. ボウルでかき混ぜる (bowl + spatula)\n");
-        prompt.append("4. オーブンにかける (oven)\n");
-        prompt.append("5. ご飯を炊く (rice_cooker)\n");
-        prompt.append("6. レンチン (microwave)\n");
-        prompt.append("7. 包丁できざむ (cutting_board + kitchen_knife)\n\n");
+        prompt.append("【本Mod】\n");
+        prompt.append("1. IHヒーターで焼く (customcookingmod:ih_heater + customcookingmod:frying_pan)\n");
+        prompt.append("2. ボウルでかき混ぜる (customcookingmod:bowl + customcookingmod:spatula)\n");
+        prompt.append("3. オーブンにかける (customcookingmod:oven)\n");
+        prompt.append("4. ご飯を炊く (customcookingmod:rice_cooker)\n");
+        prompt.append("5. レンチン (customcookingmod:microwave)\n");
+        prompt.append("6. ホットプレートで焼く (customcookingmod:hot_plate)\n\n");
+
+        prompt.append("【KaleidoscopeCookery】\n");
+        prompt.append("7. ストーブで焼く (kaleidoscope_cookery:stove)\n");
+        prompt.append("8. 鍋でゆでる (kaleidoscope_cookery:pot)\n");
+        prompt.append("9. 大鍋で煮込む (kaleidoscope_cookery:stockpot)\n");
+        prompt.append("10. 蒸し器で蒸す (kaleidoscope_cookery:steamer)\n");
+        prompt.append("11. まな板で切る (kaleidoscope_cookery:chopping_board + kaleidoscope_cookery:kitchen_knife)\n");
+        prompt.append("12. 粉挽き機で挽く (kaleidoscope_cookery:millstone)\n\n");
 
         prompt.append("以下のJSON形式で応答してください:\n");
         prompt.append("{\n");

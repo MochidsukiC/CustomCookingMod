@@ -12,11 +12,9 @@
   "item.customcookingmod.potato_starch": "Potato Starch",
   "item.customcookingmod.failed_dish": "Failed Dish",
 
-  "item.customcookingmod.kitchen_knife": "Kitchen Knife",
   "item.customcookingmod.spatula": "Spatula",
   "item.customcookingmod.ladle": "Ladle",
   "item.customcookingmod.frying_pan": "Frying Pan",
-  "item.customcookingmod.pot": "Pot",
   "item.customcookingmod.bowl": "Bowl",
 
   "block.customcookingmod.ai_kitchen": "AI Kitchen",
@@ -24,6 +22,5 @@
   "block.customcookingmod.oven": "Oven",
   "block.customcookingmod.rice_cooker": "Rice Cooker",
   "block.customcookingmod.microwave": "Microwave",
-  "block.customcookingmod.hot_plate": "Hot Plate",
-  "block.customcookingmod.cutting_board": "Cutting Board"
+  "block.customcookingmod.hot_plate": "Hot Plate"
 }

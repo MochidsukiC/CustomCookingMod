@@ -43,8 +43,7 @@ public class ModItems {
             () -> new Item(new Item.Properties()));
 
     // 調理器具アイテム (Cooking Tools)
-    public static final RegistryObject<Item> KITCHEN_KNIFE = ITEMS.register("kitchen_knife",
-            () -> new Item(new Item.Properties().durability(256)));
+    // Note: kitchen_knife and pot are provided by KaleidoscopeCookery
 
     public static final RegistryObject<Item> SPATULA = ITEMS.register("spatula",
             () -> new Item(new Item.Properties().durability(128)));
@@ -53,9 +52,6 @@ public class ModItems {
             () -> new Item(new Item.Properties().durability(128)));
 
     public static final RegistryObject<Item> FRYING_PAN = ITEMS.register("frying_pan",
-            () -> new Item(new Item.Properties().durability(256)));
-
-    public static final RegistryObject<Item> POT = ITEMS.register("pot",
             () -> new Item(new Item.Properties().durability(256)));
 
     public static final RegistryObject<Item> BOWL = ITEMS.register("bowl",
