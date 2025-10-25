@@ -33,6 +33,7 @@
   "block.customcookingmod.rice_cooker": "Rice Cooker",
   "block.customcookingmod.microwave": "Microwave",
   "block.customcookingmod.hot_plate": "Hot Plate",
+  "block.customcookingmod.cutting_board": "Cutting Board",
 
   "gui.customcookingmod.ai_kitchen.dish_name": "Dish Name",
   "gui.customcookingmod.ai_kitchen.dish_name_hint": "Enter dish name...",
