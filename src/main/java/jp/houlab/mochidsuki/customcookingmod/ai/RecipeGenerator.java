@@ -102,17 +102,22 @@ public class RecipeGenerator {
         prompt.append("11. まな板で切る (kaleidoscope_cookery:chopping_board + kaleidoscope_cookery:kitchen_knife)\n");
         prompt.append("12. 粉挽き機で挽く (kaleidoscope_cookery:millstone)\n\n");
 
-        prompt.append("以下のJSON形式で応答してください:\n");
-        prompt.append("重要: 料理はグラム単位で管理されます。totalWeightGramsにレシピ全体の重量を指定し、\n");
-        prompt.append("材料もグラム単位（grams）で指定してください。\n");
-        prompt.append("nutritionPer100gとsaturationPer100gには100gあたりの満腹度回復量を指定してください。\n\n");
+        prompt.append("以下のJSON形式で応答してください:\n\n");
+        prompt.append("重要なルール:\n");
+        prompt.append("1. レシピは100gあたりの分量で指定してください\n");
+        prompt.append("2. 材料は2種類の単位があります:\n");
+        prompt.append("   - amountType=\"grams\": 粉や液体など個数カウントできないもの（塩、醤油、小麦粉、水、油など）\n");
+        prompt.append("   - amountType=\"count\": 個数でカウントできる固形物（トマト、肉、卵、ニンジンなど）\n");
+        prompt.append("3. totalWeightGramsは100固定にしてください\n");
+        prompt.append("4. nutritionPer100gとsaturationPer100gには100gあたりの満腹度回復量を指定\n\n");
         prompt.append("{\n");
         prompt.append("  \"dishName\": \"" + dishName + "\",\n");
-        prompt.append("  \"totalWeightGrams\": 1000,\n");
+        prompt.append("  \"totalWeightGrams\": 100,\n");
         prompt.append("  \"ingredients\": [\n");
-        prompt.append("    {\"item\": \"minecraft:wheat\", \"grams\": 300},\n");
-        prompt.append("    {\"item\": \"customcookingmod:salt\", \"grams\": 5},\n");
-        prompt.append("    {\"item\": \"minecraft:egg\", \"grams\": 50}\n");
+        prompt.append("    {\"item\": \"minecraft:wheat\", \"amountType\": \"grams\", \"amount\": 30.0},\n");
+        prompt.append("    {\"item\": \"customcookingmod:salt\", \"amountType\": \"grams\", \"amount\": 0.5},\n");
+        prompt.append("    {\"item\": \"minecraft:egg\", \"amountType\": \"count\", \"amount\": 0.05},\n");
+        prompt.append("    {\"item\": \"kaleidoscope_cookery:tomato\", \"amountType\": \"count\", \"amount\": 0.1}\n");
         prompt.append("  ],\n");
         prompt.append("  \"steps\": [\n");
         prompt.append("    {\"action\": \"mix_in_bowl\", \"description\": \"ボウルで小麦と塩を混ぜる\"},\n");
@@ -151,8 +156,9 @@ public class RecipeGenerator {
             for (int i = 0; i < ingredientsJson.size(); i++) {
                 JsonObject ingredient = ingredientsJson.get(i).getAsJsonObject();
                 String itemId = ingredient.get("item").getAsString();
-                int grams = ingredient.get("grams").getAsInt();
-                recipeData.ingredients.add(new RecipeData.Ingredient(itemId, grams));
+                String amountType = ingredient.get("amountType").getAsString();
+                float amount = ingredient.get("amount").getAsFloat();
+                recipeData.ingredients.add(new RecipeData.Ingredient(itemId, amountType, amount));
             }
 
             // Parse cooking steps
@@ -208,11 +214,13 @@ public class RecipeGenerator {
 
         public static class Ingredient {
             public String itemId;
-            public int grams;  // Weight in grams
+            public String amountType;  // "grams" for seasonings/powders, "count" for solid items
+            public float amount;  // Quantity (grams or count)
 
-            public Ingredient(String itemId, int grams) {
+            public Ingredient(String itemId, String amountType, float amount) {
                 this.itemId = itemId;
-                this.grams = grams;
+                this.amountType = amountType;
+                this.amount = amount;
             }
         }
 
