@@ -3,6 +3,10 @@ package jp.houlab.mochidsuki.customcookingmod.registry;
 import jp.houlab.mochidsuki.customcookingmod.CustomcookingmodMain;
 import jp.houlab.mochidsuki.customcookingmod.block.AIKitchenBlock;
 import jp.houlab.mochidsuki.customcookingmod.block.CuttingBoardBlock;
+import jp.houlab.mochidsuki.customcookingmod.block.HotPlateBlock;
+import jp.houlab.mochidsuki.customcookingmod.block.IHHeaterBlock;
+import jp.houlab.mochidsuki.customcookingmod.block.OvenBlock;
+import jp.houlab.mochidsuki.customcookingmod.block.PotBlock;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -29,7 +33,7 @@ public class ModBlocks {
 
     // IHヒーター (IH Heater)
     public static final RegistryObject<Block> IH_HEATER = registerBlock("ih_heater",
-            () -> new Block(BlockBehaviour.Properties.of()
+            () -> new IHHeaterBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.METAL)
                     .strength(3.0f)
                     .sound(SoundType.METAL)
@@ -37,7 +41,7 @@ public class ModBlocks {
 
     // オーブン (Oven)
     public static final RegistryObject<Block> OVEN = registerBlock("oven",
-            () -> new Block(BlockBehaviour.Properties.of()
+            () -> new OvenBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.METAL)
                     .strength(3.5f)
                     .sound(SoundType.METAL)
@@ -61,7 +65,7 @@ public class ModBlocks {
 
     // ホットプレート (Hot Plate)
     public static final RegistryObject<Block> HOT_PLATE = registerBlock("hot_plate",
-            () -> new Block(BlockBehaviour.Properties.of()
+            () -> new HotPlateBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.METAL)
                     .strength(2.0f)
                     .sound(SoundType.METAL)
@@ -74,7 +78,13 @@ public class ModBlocks {
                     .strength(1.5f)
                     .sound(SoundType.WOOD)));
 
-    // Note: pot is provided by KaleidoscopeCookery
+    // 鍋 (Pot)
+    public static final RegistryObject<Block> POT = registerBlock("pot",
+            () -> new PotBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.METAL)
+                    .strength(2.5f)
+                    .sound(SoundType.METAL)
+                    .requiresCorrectToolForDrops()));
 
     // Helper method to register block with item
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
