@@ -1,5 +1,6 @@
 package jp.houlab.mochidsuki.customcookingmod.blockentity;
 
+import jp.houlab.mochidsuki.customcookingmod.block.IHHeaterBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -93,6 +94,40 @@ public abstract class CookingProcessBlockEntity extends CookingBlockEntity {
     }
 
     /**
+     * Check if this cooking block requires a heat source (IH) below
+     * Override in subclasses to specify heat source requirement
+     */
+    protected boolean requiresHeatSource() {
+        return false; // Default: independent operation
+    }
+
+    /**
+     * Get heat multiplier from heat source below
+     * Returns 1.0 for independent blocks, or IH heat multiplier for dependent blocks
+     */
+    protected float getHeatMultiplier() {
+        if (!requiresHeatSource()) {
+            return 1.0f; // Independent operation at normal speed
+        }
+        // Check for IH below
+        if (level != null) {
+            float multiplier = IHHeaterBlock.getHeatMultiplierFromBelow(level, worldPosition);
+            return multiplier;
+        }
+        return 0.0f; // No heat source
+    }
+
+    /**
+     * Check if heat source is available (for dependent blocks)
+     */
+    protected boolean hasHeatSource() {
+        if (!requiresHeatSource()) {
+            return true; // Independent blocks always have "heat"
+        }
+        return getHeatMultiplier() > 0.0f;
+    }
+
+    /**
      * Tick cooking progress
      * Call this from tick() method in subclasses
      */
@@ -101,7 +136,16 @@ public abstract class CookingProcessBlockEntity extends CookingBlockEntity {
             return;
         }
 
-        cookingProgress++;
+        // Check heat source
+        if (!hasHeatSource()) {
+            // No heat - stop cooking
+            stopCooking();
+            return;
+        }
+
+        // Apply heat multiplier to cooking speed
+        float heatMultiplier = getHeatMultiplier();
+        cookingProgress += Math.max(1, (int) heatMultiplier);
 
         if (cookingProgress >= cookingTime) {
             // Cooking complete

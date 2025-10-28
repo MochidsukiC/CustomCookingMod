@@ -1,6 +1,6 @@
 package jp.houlab.mochidsuki.customcookingmod.block;
 
-import jp.houlab.mochidsuki.customcookingmod.blockentity.PotBlockEntity;
+import jp.houlab.mochidsuki.customcookingmod.blockentity.FryingPanBlockEntity;
 import jp.houlab.mochidsuki.customcookingmod.cooking.CookingAction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -21,19 +21,20 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Pot Block
- * Players can add ingredients and cook them by simmering or boiling
+ * Frying Pan Block
+ * Players can add ingredients and fry them
+ * Requires IH heater below to operate
  */
-public class PotBlock extends BaseEntityBlock {
+public class FryingPanBlock extends BaseEntityBlock {
 
-    public PotBlock(Properties properties) {
+    public FryingPanBlock(Properties properties) {
         super(properties);
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new PotBlockEntity(pos, state);
+        return new FryingPanBlockEntity(pos, state);
     }
 
     @Override
@@ -45,8 +46,8 @@ public class PotBlock extends BaseEntityBlock {
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
         return level.isClientSide() ? null : (level1, pos, state1, blockEntity) -> {
-            if (blockEntity instanceof PotBlockEntity pot) {
-                PotBlockEntity.tick(level1, pos, state1, pot);
+            if (blockEntity instanceof FryingPanBlockEntity pan) {
+                FryingPanBlockEntity.tick(level1, pos, state1, pan);
             }
         };
     }
@@ -55,20 +56,20 @@ public class PotBlock extends BaseEntityBlock {
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (!level.isClientSide()) {
             BlockEntity blockEntity = level.getBlockEntity(pos);
-            if (blockEntity instanceof PotBlockEntity pot) {
+            if (blockEntity instanceof FryingPanBlockEntity pan) {
                 ItemStack heldItem = player.getItemInHand(hand);
 
-                // If holding spoon, start cooking (simmer or boil)
-                if (isSpoon(heldItem)) {
-                    return handleSpoonInteraction(pot, player, level, pos);
+                // If holding spatula, start frying
+                if (isSpatula(heldItem)) {
+                    return handleSpatulaInteraction(pan, player, level, pos);
                 }
                 // If holding ingredient, add it
                 else if (isIngredient(heldItem)) {
-                    return handleIngredientAddition(pot, heldItem, player, level, pos);
+                    return handleIngredientAddition(pan, heldItem, player, level, pos);
                 }
                 // Empty hand - show status
                 else if (heldItem.isEmpty()) {
-                    return handleStatusCheck(pot, player);
+                    return handleStatusCheck(pan, player);
                 }
             }
         }
@@ -76,10 +77,10 @@ public class PotBlock extends BaseEntityBlock {
     }
 
     /**
-     * Handle spoon interaction to start cooking
+     * Handle spatula interaction to start frying
      */
-    private InteractionResult handleSpoonInteraction(PotBlockEntity pot, Player player, Level level, BlockPos pos) {
-        if (pot.isCooking()) {
+    private InteractionResult handleSpatulaInteraction(FryingPanBlockEntity pan, Player player, Level level, BlockPos pos) {
+        if (pan.isCooking()) {
             player.displayClientMessage(
                     Component.literal("§eAlready cooking..."),
                     true
@@ -87,36 +88,33 @@ public class PotBlock extends BaseEntityBlock {
             return InteractionResult.FAIL;
         }
 
-        if (!pot.hasIngredients()) {
+        if (!pan.hasIngredients()) {
             player.displayClientMessage(
-                    Component.literal("§cNo ingredients in pot!"),
+                    Component.literal("§cNo ingredients in frying pan!"),
                     true
             );
             return InteractionResult.FAIL;
         }
 
         // Check for IH heater below
-        if (!pot.hasHeatSource()) {
+        if (!pan.hasHeatSource()) {
             player.displayClientMessage(
-                    Component.literal("§cNo IH heater below! Place pot on an IH heater."),
+                    Component.literal("§cNo IH heater below! Place frying pan on an IH heater."),
                     true
             );
             return InteractionResult.FAIL;
         }
 
-        // Check if ingredients contain liquid or need simmering (simple heuristic: if >2 ingredients, simmer, else boil)
-        CookingAction action = pot.getIngredients().size() > 2 ? CookingAction.SIMMER : CookingAction.BOIL;
-
-        // Start cooking
-        boolean started = pot.startCooking(
-                action.getId(),
-                action.getDefaultDurationTicks()
+        // Start frying
+        boolean started = pan.startCooking(
+                CookingAction.FRY.getId(),
+                CookingAction.FRY.getDefaultDurationTicks()
         );
 
         if (started) {
-            level.playSound(null, pos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 0.5F, 1.0F);
+            level.playSound(null, pos, SoundEvents.LAVA_POP, SoundSource.BLOCKS, 0.5F, 1.0F);
             player.displayClientMessage(
-                    Component.literal("§aStarted " + action.getDisplayName().toLowerCase() + "!"),
+                    Component.literal("§aStarted frying!"),
                     true
             );
             return InteractionResult.SUCCESS;
@@ -126,10 +124,10 @@ public class PotBlock extends BaseEntityBlock {
     }
 
     /**
-     * Handle adding ingredient to pot
+     * Handle adding ingredient to frying pan
      */
-    private InteractionResult handleIngredientAddition(PotBlockEntity pot, ItemStack ingredient, Player player, Level level, BlockPos pos) {
-        if (pot.isCooking()) {
+    private InteractionResult handleIngredientAddition(FryingPanBlockEntity pan, ItemStack ingredient, Player player, Level level, BlockPos pos) {
+        if (pan.isCooking()) {
             player.displayClientMessage(
                     Component.literal("§cCannot add ingredients while cooking!"),
                     true
@@ -137,26 +135,26 @@ public class PotBlock extends BaseEntityBlock {
             return InteractionResult.FAIL;
         }
 
-        if (pot.hasFood()) {
+        if (pan.hasFood()) {
             player.displayClientMessage(
-                    Component.literal("§cPot already has cooked food! Remove it first."),
+                    Component.literal("§cFrying pan already has cooked food! Remove it first."),
                     true
             );
             return InteractionResult.FAIL;
         }
 
-        boolean added = pot.addIngredient(ingredient);
+        boolean added = pan.addIngredient(ingredient);
         if (added) {
             ingredient.shrink(1);
             level.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 0.5F, 1.2F);
             player.displayClientMessage(
-                    Component.literal("§aAdded " + ingredient.getHoverName().getString() + " to pot"),
+                    Component.literal("§aAdded " + ingredient.getHoverName().getString() + " to frying pan"),
                     true
             );
             return InteractionResult.SUCCESS;
         } else {
             player.displayClientMessage(
-                    Component.literal("§cPot is full!"),
+                    Component.literal("§cFrying pan is full!"),
                     true
             );
             return InteractionResult.FAIL;
@@ -166,26 +164,26 @@ public class PotBlock extends BaseEntityBlock {
     /**
      * Handle status check
      */
-    private InteractionResult handleStatusCheck(PotBlockEntity pot, Player player) {
-        if (pot.isCooking()) {
-            float progress = pot.getCookingProgress() * 100;
+    private InteractionResult handleStatusCheck(FryingPanBlockEntity pan, Player player) {
+        if (pan.isCooking()) {
+            float progress = pan.getCookingProgress() * 100;
             player.displayClientMessage(
-                    Component.literal(String.format("§eCooking: %.0f%%", progress)),
+                    Component.literal(String.format("§eFrying: %.0f%%", progress)),
                     true
             );
-        } else if (pot.hasFood()) {
+        } else if (pan.hasFood()) {
             player.displayClientMessage(
-                    Component.literal("§aFood ready: " + pot.getStoredFoodType()),
+                    Component.literal("§aFood ready: " + pan.getStoredFoodType()),
                     true
             );
-        } else if (pot.hasIngredients()) {
+        } else if (pan.hasIngredients()) {
             player.displayClientMessage(
-                    Component.literal("§eIngredients: " + pot.getIngredients().size() + " items. Use spoon to cook."),
+                    Component.literal("§eIngredients: " + pan.getIngredients().size() + " items. Use spatula to start frying."),
                     true
             );
         } else {
             player.displayClientMessage(
-                    Component.literal("§7Empty pot"),
+                    Component.literal("§7Empty frying pan"),
                     true
             );
         }
@@ -193,11 +191,11 @@ public class PotBlock extends BaseEntityBlock {
     }
 
     /**
-     * Check if item is a spoon
+     * Check if item is a spatula
      */
-    private boolean isSpoon(ItemStack stack) {
-        return stack.getItem().toString().contains("spoon") ||
-               stack.getItem().getDescriptionId().contains("spoon");
+    private boolean isSpatula(ItemStack stack) {
+        return stack.getItem().toString().contains("spatula") ||
+               stack.getItem().getDescriptionId().contains("spatula");
     }
 
     /**
@@ -213,9 +211,9 @@ public class PotBlock extends BaseEntityBlock {
     public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = level.getBlockEntity(pos);
-            if (blockEntity instanceof PotBlockEntity pot) {
+            if (blockEntity instanceof FryingPanBlockEntity pan) {
                 // Drop all ingredients
-                for (ItemStack ingredient : pot.getIngredients()) {
+                for (ItemStack ingredient : pan.getIngredients()) {
                     popResource(level, pos, ingredient);
                 }
             }

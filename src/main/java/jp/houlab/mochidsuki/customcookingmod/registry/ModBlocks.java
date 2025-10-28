@@ -3,6 +3,7 @@ package jp.houlab.mochidsuki.customcookingmod.registry;
 import jp.houlab.mochidsuki.customcookingmod.CustomcookingmodMain;
 import jp.houlab.mochidsuki.customcookingmod.block.AIKitchenBlock;
 import jp.houlab.mochidsuki.customcookingmod.block.CuttingBoardBlock;
+import jp.houlab.mochidsuki.customcookingmod.block.FryingPanBlock;
 import jp.houlab.mochidsuki.customcookingmod.block.HotPlateBlock;
 import jp.houlab.mochidsuki.customcookingmod.block.IHHeaterBlock;
 import jp.houlab.mochidsuki.customcookingmod.block.OvenBlock;
@@ -83,6 +84,14 @@ public class ModBlocks {
             () -> new PotBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.METAL)
                     .strength(2.5f)
+                    .sound(SoundType.METAL)
+                    .requiresCorrectToolForDrops()));
+
+    // フライパン (Frying Pan)
+    public static final RegistryObject<Block> FRYING_PAN = registerBlock("frying_pan",
+            () -> new FryingPanBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.METAL)
+                    .strength(2.0f)
                     .sound(SoundType.METAL)
                     .requiresCorrectToolForDrops()));
 

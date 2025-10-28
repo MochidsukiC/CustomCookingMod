@@ -3,6 +3,7 @@ package jp.houlab.mochidsuki.customcookingmod.registry;
 import jp.houlab.mochidsuki.customcookingmod.CustomcookingmodMain;
 import jp.houlab.mochidsuki.customcookingmod.blockentity.AIKitchenBlockEntity;
 import jp.houlab.mochidsuki.customcookingmod.blockentity.CuttingBoardBlockEntity;
+import jp.houlab.mochidsuki.customcookingmod.blockentity.FryingPanBlockEntity;
 import jp.houlab.mochidsuki.customcookingmod.blockentity.HotPlateBlockEntity;
 import jp.houlab.mochidsuki.customcookingmod.blockentity.IHHeaterBlockEntity;
 import jp.houlab.mochidsuki.customcookingmod.blockentity.OvenBlockEntity;
@@ -36,6 +37,11 @@ public class ModBlockEntities {
             BLOCK_ENTITIES.register("pot_be", () ->
                     BlockEntityType.Builder.of(PotBlockEntity::new,
                             ModBlocks.POT.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<FryingPanBlockEntity>> FRYING_PAN_BE =
+            BLOCK_ENTITIES.register("frying_pan_be", () ->
+                    BlockEntityType.Builder.of(FryingPanBlockEntity::new,
+                            ModBlocks.FRYING_PAN.get()).build(null));
 
     public static final RegistryObject<BlockEntityType<OvenBlockEntity>> OVEN_BE =
             BLOCK_ENTITIES.register("oven_be", () ->

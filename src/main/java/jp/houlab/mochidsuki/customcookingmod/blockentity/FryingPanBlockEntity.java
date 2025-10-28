@@ -9,24 +9,25 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
- * BlockEntity for Pot
- * Supports simmering and boiling cooking actions
+ * BlockEntity for Frying Pan
+ * Supports frying cooking action
+ * Requires IH heater below to operate
  */
-public class PotBlockEntity extends CookingProcessBlockEntity {
+public class FryingPanBlockEntity extends CookingProcessBlockEntity {
 
-    public PotBlockEntity(BlockPos pos, BlockState blockState) {
-        super(ModBlockEntities.POT_BE.get(), pos, blockState);
+    public FryingPanBlockEntity(BlockPos pos, BlockState blockState) {
+        super(ModBlockEntities.FRYING_PAN_BE.get(), pos, blockState);
     }
 
     @Override
     protected boolean requiresHeatSource() {
-        return true; // Pot requires IH heater below
+        return true; // Frying pan requires IH heater below
     }
 
     /**
      * Server tick method called by the block
      */
-    public static void tick(Level level, BlockPos pos, BlockState state, PotBlockEntity blockEntity) {
+    public static void tick(Level level, BlockPos pos, BlockState state, FryingPanBlockEntity blockEntity) {
         if (blockEntity.isCooking()) {
             blockEntity.tickCooking();
         }

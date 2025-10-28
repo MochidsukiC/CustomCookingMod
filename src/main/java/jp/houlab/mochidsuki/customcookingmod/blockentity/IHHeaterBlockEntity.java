@@ -1,109 +1,112 @@
 package jp.houlab.mochidsuki.customcookingmod.blockentity;
 
-import jp.houlab.mochidsuki.customcookingmod.cooking.CookingAction;
 import jp.houlab.mochidsuki.customcookingmod.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
  * BlockEntity for IH Heater
- * Supports multiple cooking actions depending on the tool used
+ * Acts as a heat source for cooking blocks placed above it
  */
-public class IHHeaterBlockEntity extends CookingProcessBlockEntity {
+public class IHHeaterBlockEntity extends BlockEntity {
+
+    public enum HeatLevel {
+        OFF(0, "Off", 0.0f),
+        LOW(1, "Low", 0.5f),
+        MEDIUM(2, "Medium", 1.0f),
+        HIGH(3, "High", 1.5f);
+
+        private final int id;
+        private final String displayName;
+        private final float speedMultiplier;
+
+        HeatLevel(int id, String displayName, float speedMultiplier) {
+            this.id = id;
+            this.displayName = displayName;
+            this.speedMultiplier = speedMultiplier;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public String getDisplayName() {
+            return displayName;
+        }
+
+        public float getSpeedMultiplier() {
+            return speedMultiplier;
+        }
+
+        public HeatLevel next() {
+            int nextId = (id + 1) % values().length;
+            return values()[nextId];
+        }
+
+        public static HeatLevel fromId(int id) {
+            for (HeatLevel level : values()) {
+                if (level.id == id) {
+                    return level;
+                }
+            }
+            return OFF;
+        }
+    }
+
+    private HeatLevel heatLevel = HeatLevel.OFF;
 
     public IHHeaterBlockEntity(BlockPos pos, BlockState blockState) {
         super(ModBlockEntities.IH_HEATER_BE.get(), pos, blockState);
     }
 
     /**
-     * Server tick method called by the block
+     * Get current heat level
      */
-    public static void tick(Level level, BlockPos pos, BlockState state, IHHeaterBlockEntity blockEntity) {
-        if (blockEntity.isCooking()) {
-            blockEntity.tickCooking();
-        }
+    public HeatLevel getHeatLevel() {
+        return heatLevel;
+    }
+
+    /**
+     * Set heat level
+     */
+    public void setHeatLevel(HeatLevel level) {
+        this.heatLevel = level;
+        setChanged();
+    }
+
+    /**
+     * Cycle to next heat level
+     */
+    public void cycleHeatLevel() {
+        this.heatLevel = this.heatLevel.next();
+        setChanged();
+    }
+
+    /**
+     * Check if this IH is providing heat
+     */
+    public boolean isHeating() {
+        return heatLevel != HeatLevel.OFF;
+    }
+
+    /**
+     * Get speed multiplier for cooking
+     */
+    public float getSpeedMultiplier() {
+        return heatLevel.getSpeedMultiplier();
     }
 
     @Override
-    protected void onCookingComplete() {
-        // Generate result name based on cooking action
-        String resultName = generateResultName(getCurrentAction());
-
-        // Calculate total nutrition and saturation
-        float totalNutrition = calculateTotalNutrition();
-        float totalSaturation = calculateTotalSaturation();
-
-        // Calculate total weight (each ingredient = 100g)
-        int totalWeight = calculateTotalWeight();
-
-        // Store the cooked food
-        storeFood(
-            resultName,
-            totalWeight,
-            totalNutrition / (totalWeight / 100.0f), // Per 100g
-            totalSaturation / (totalWeight / 100.0f)
-        );
-
-        // Clear ingredients
-        clearIngredients();
+    protected void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
+        tag.putInt("HeatLevel", heatLevel.getId());
     }
 
-    /**
-     * Generate result name based on cooking action and ingredients
-     */
-    private String generateResultName(String actionId) {
-        CookingAction action = CookingAction.fromId(actionId);
-        if (action == null) {
-            return "Unknown Food";
-        }
-
-        // Get main ingredient name
-        String mainIngredient = "Mixed Ingredients";
-        if (!getIngredients().isEmpty()) {
-            mainIngredient = getIngredients().get(0).getHoverName().getString();
-            if (getIngredients().size() > 1) {
-                mainIngredient = "Mixed Ingredients";
-            }
-        }
-
-        return action.getResultPrefix() + " " + mainIngredient;
-    }
-
-    /**
-     * Calculate total nutrition from all ingredients
-     */
-    private float calculateTotalNutrition() {
-        float total = 0.0f;
-        for (ItemStack ingredient : getIngredients()) {
-            FoodProperties food = ingredient.getItem().getFoodProperties();
-            if (food != null) {
-                total += food.getNutrition() * ingredient.getCount();
-            }
-        }
-        return total;
-    }
-
-    /**
-     * Calculate total saturation from all ingredients
-     */
-    private float calculateTotalSaturation() {
-        float total = 0.0f;
-        for (ItemStack ingredient : getIngredients()) {
-            FoodProperties food = ingredient.getItem().getFoodProperties();
-            if (food != null) {
-                total += food.getSaturationModifier() * ingredient.getCount();
-            }
-        }
-        return total;
-    }
-
-    /**
-     * Calculate total weight (each ingredient = 100g)
-     */
-    private int calculateTotalWeight() {
-        return getIngredients().size() * 100;
+    @Override
+    public void load(CompoundTag tag) {
+        super.load(tag);
+        this.heatLevel = HeatLevel.fromId(tag.getInt("HeatLevel"));
     }
 }
