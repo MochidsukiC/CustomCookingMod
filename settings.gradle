@@ -9,7 +9,8 @@ pluginManagement {
 }
 
 plugins {
-    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.7.0'
+    // Disabled due to network restrictions
+    // id 'org.gradle.toolchains.foojay-resolver-convention' version '0.7.0'
 }
 
 rootProject.name = 'customcookingmod'
