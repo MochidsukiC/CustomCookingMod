@@ -1,0 +1,26 @@
+{
+  "itemGroup.customcookingmod.custom_cooking_tab": "カスタムクッキング",
+
+  "item.customcookingmod.rice": "米",
+  "item.customcookingmod.salt": "塩",
+  "item.customcookingmod.mirin": "みりん",
+  "item.customcookingmod.cooking_sake": "料理酒",
+  "item.customcookingmod.miso": "みそ",
+  "item.customcookingmod.cooking_oil": "食用油",
+  "item.customcookingmod.sesame_oil": "ごま油",
+  "item.customcookingmod.pepper": "こしょう",
+  "item.customcookingmod.potato_starch": "片栗粉",
+  "item.customcookingmod.failed_dish": "失敗作",
+
+  "item.customcookingmod.spatula": "へら",
+  "item.customcookingmod.ladle": "おたま",
+  "item.customcookingmod.frying_pan": "フライパン",
+  "item.customcookingmod.bowl": "ボウル",
+
+  "block.customcookingmod.ai_kitchen": "AIキッチン",
+  "block.customcookingmod.ih_heater": "IHヒーター",
+  "block.customcookingmod.oven": "オーブン",
+  "block.customcookingmod.rice_cooker": "炊飯器",
+  "block.customcookingmod.microwave": "電子レンジ",
+  "block.customcookingmod.hot_plate": "ホットプレート"
+}
